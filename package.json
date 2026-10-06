@@ -1,0 +1,14 @@
+{
+  "name": "purl-studio",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "A visual top-down raglan sweater designer with a deterministic knitting engine",
+  "engines": { "node": ">=22" },
+  "scripts": {
+    "dev": "node scripts/serve.mjs",
+    "start": "node scripts/serve.mjs",
+    "test": "node --test",
+    "build": "node scripts/build.mjs"
+  }
+}
