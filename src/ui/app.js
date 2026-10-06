@@ -58,7 +58,7 @@ function patternPage() {
 }
 function updateLive() {
   result = calculate(design);
-  document.querySelector('#drawing').innerHTML = sweaterSVG(design,result.ok ? result.finished : null);
+  document.querySelector('#drawing').innerHTML = result.ok ? sweaterSVG(design,result.finished) : '<p class="invalid-preview">Preview paused until the settings are valid.</p>';
   document.querySelector('#measurements').innerHTML = measurements();
   document.querySelector('#notices').innerHTML = notices();
   const generate = document.querySelector('[data-action="generate"]');
