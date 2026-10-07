@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { repeatCompatibility,nearbyCompatibleCounts,stripeSequence,validateColorwork,stableSleeveWindows,zoneForSection } from '../src/colorwork/engine.js';
-import { createColorDesign,createChart,paintChart,resizeChart,recolorPalette,serializeColorDesign,parseColorDesign } from '../src/colorwork/model.js';
+import { createColorDesign,createChart,duplicateChart,paintChart,resizeChart,recolorPalette,serializeColorDesign,parseColorDesign } from '../src/colorwork/model.js';
 import { garmentSuggestions } from '../src/colorwork/adjustments.js';
 import { colorPattern,chartText } from '../src/colorwork/pattern.js';
 import { calculate } from '../src/engine/calculate.js';
@@ -69,4 +69,20 @@ test('duplicate palette HEX values retain distinct chart legend letters',()=>{
  const d=recolorPalette(createColorDesign(),0,'#f1ebdd'),p=calculate(DEFAULTS);
  const colors=colorPattern(d,p).sections[0].text;
  assert.match(colors,/Color A — Base/);assert.match(colors,/Color C — Cream/);
+});
+
+test('chart duplication tiles both axes without blank cells, aliasing or silent clipping',()=>{
+ const original={...createChart(createColorDesign().palette,3,2),cells:[[0,1,2],[3,2,1]],repeatHorizontal:false};
+ const before=JSON.stringify(original);
+ const wide=duplicateChart(original,'width');
+ assert.deepEqual(wide.cells,[[0,1,2,0,1,2],[3,2,1,3,2,1]]);
+ assert.equal(wide.width,6);assert.equal(wide.height,2);assert.equal(wide.repeatHorizontal,false);
+ const tall=duplicateChart(original,'height');
+ assert.deepEqual(tall.cells,[[0,1,2],[3,2,1],[0,1,2],[3,2,1]]);
+ assert.equal(tall.width,3);assert.equal(tall.height,4);
+ tall.cells[2][0]=2;assert.equal(tall.cells[0][0],0);assert.equal(JSON.stringify(original),before);
+ assert.equal(duplicateChart(createChart(original.palette.map(hex=>({hex})),16,2),'width').width,32);
+ assert.throws(()=>duplicateChart({...original,width:17},'width'));
+ assert.throws(()=>duplicateChart({...original,height:17},'height'));
+ assert.throws(()=>duplicateChart(original,'diagonal'));
 });

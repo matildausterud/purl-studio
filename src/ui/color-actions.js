@@ -1,4 +1,4 @@
-import { createChart, resizeChart, paintChart, recolorPalette, HEX } from '../colorwork/model.js';
+import { createChart, resizeChart, duplicateChart, paintChart, recolorPalette, HEX } from '../colorwork/model.js';
 import { garmentSuggestions } from '../colorwork/adjustments.js';
 export function colorAction(event,d,p,state) {
  const el=event.target.closest('button,input,select');if(!el||el.disabled)return null;
@@ -14,6 +14,7 @@ export function colorAction(event,d,p,state) {
      if(a.repeat!==undefined){z.chart.repeatHorizontal=el.checked;changed=true;}
    }
  } else if(event.type==='click'){
+   if(a.duplicateChart && z?.chart && ['width','height'].includes(a.duplicateChart) && z.chart[a.duplicateChart]<=16){z.chart=duplicateChart(z.chart,a.duplicateChart);changed=true;}
    if(a.zone){state.placement=a.zone;changed=true;}
    if(a.patternType&&z?.type!==a.patternType){const next={id:`zone-${state.placement}`,placement:state.placement,type:a.patternType};if(['solid','block'].includes(next.type))next.color=d.baseColor;if(next.type==='stripes')next.stripes=[{color:d.baseColor,rows:6},{color:d.palette[1]?.hex||d.baseColor,rows:4}];if(next.type==='chart')next.chart=createChart(d.palette,4,state.placement==='sleeves'?2:6);d.zones=d.zones.filter(z=>z.placement!==state.placement).concat(next);changed=true;}
    if(a.zoneColor!==undefined&&z){z.color=d.palette[Number(a.zoneColor)].hex;changed=true;}

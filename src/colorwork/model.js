@@ -92,3 +92,13 @@ export function parseColorDesign(text) {
   const d=JSON.parse(text);const errors=validateColorData(d);if(errors.length)throw new Error(errors.join(' '));
   return d;
 }
+
+/** Tile the existing motif along one axis; retain palette and repeat settings. */
+export function duplicateChart(chart, axis) {
+  if (!['width', 'height'].includes(axis)) throw new RangeError('Choose width or height.');
+  const width = chart.width * (axis === 'width' ? 2 : 1);
+  const height = chart.height * (axis === 'height' ? 2 : 1);
+  if (width > 32 || height > 32) throw new RangeError('Duplicating would exceed the 32 × 32 chart limit.');
+  return {...chart, width, height, cells: Array.from({length:height}, (_,r) =>
+    Array.from({length:width}, (_,c) => chart.cells[r % chart.height][c % chart.width]))};
+}
