@@ -33,3 +33,16 @@ Physical knitting samples, independent knitting tech editing and real-yarn fit t
 - Browser: 390 px mobile layout has no horizontal overflow; desktop neckline cards and V drawing visually reviewed. No browser errors were recorded.
 - Collar-height and V-depth edits recalculate their respective rows and pickup counts; invalid constructions and impossible geometry are covered by engine tests.
 - New neckline shapes still require independent tech editing and physical test knitting before commercial pattern claims.
+
+
+## Color & Pattern update
+
+- 21 automated test groups pass, retaining the original raglan and 2,016-combination neckline matrices.
+- Repeat fixtures: 216 ÷ 18 = 12 remainder 0; 220 ÷ 18 = 12 remainder 4. Nearby counts and fractional-gauge measurement conversion verified.
+- Persistence round trips retain chart cells and palette references. Flood fill, resize, recoloring, malformed data and stripe row ordering covered.
+- Fit proposals preserve the input, rerun knitting validation and require all zones to validate. Unsupported yoke/rib charts and sleeve bands crossing decreases are rejected.
+- Browser: created and painted a body chart, changed its width to an incompatible 19-stitch repeat, saw unchanged 106 cm bust and disabled generation, then explicitly applied the valid 228-stitch / 114 cm option.
+- Browser: combined a body chart, reordered yoke stripes and contrasting cuffs; changed base HEX, filled and erased cells, then generated the pattern with exact chart repeat counts and section color instructions.
+- Browser: reload restored garment fit, palette and multiple zones. Stable sleeve chart selected rounds 9–10 with 72 stitches, avoiding decreases.
+- Desktop 1440 px and mobile 390 px visually reviewed. On mobile the sweater preview stays above the editor while scrolling.
+- Static build completes. Physical knitting and independent technique editing remain outside this verification.

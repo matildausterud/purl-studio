@@ -30,7 +30,7 @@ You can also run `node scripts/serve.mjs`, `node --test`, and `node scripts/buil
 - Responsive layout, semantic controls, keyboard focus, live measurements and error announcements.
 - Automated tests and GitHub Actions test/build workflow.
 
-Designs live in the current page only; refreshing resets the defaults. Download your pattern before leaving.
+Designs are saved locally in this browser, including palette, structured chart cells and garment settings. Download the design JSON and pattern to keep portable copies. No design is uploaded to an account. A storage failure is shown in the editor; imported charts and cloud project storage are not implemented.
 
 ## Architecture
 
@@ -50,7 +50,7 @@ test/necklines.test.js    Six-neckline matrix, flat-yoke and compatibility cases
 
 The engine has no DOM or visual dependencies. `calculate(input)` returns either `{ ok: false, errors, warnings }` or a versioned structured result. `makePattern(result)` checks conservation again before generating instructions. UI colour and drawing geometry never determine stitch counts.
 
-New construction modules should implement the same validated-result contract and have independent conservation tests. Add supported options deliberately in `model.js`; unsupported constructions and necklines currently fail validation instead of silently falling back. A future custom-measurement adapter can replace the house chart. Future colourwork repeat constraints belong in the engine before rendering prose or preview. Do not treat gauge, repeat compatibility, or shaping as presentation concerns.
+New construction modules should implement the same validated-result contract and have independent conservation tests. Add supported options deliberately in `model.js`; unsupported constructions and necklines currently fail validation instead of silently falling back. A future custom-measurement adapter can replace the house chart. Colourwork repeat constraints are validated by the independent colorwork engine before rendering pattern prose. Do not treat gauge, repeat compatibility, or shaping as presentation concerns.
 
 ## Calculation contract
 
@@ -75,7 +75,7 @@ The same entered gauge is used to estimate stockinette and rib dimensions. Ribbi
 
 Yarn estimates require a measured dry 10×10 cm swatch mass. The estimate approximates garment surface area, adds 15%, and rounds up to whole balls. It cannot guarantee usage for all fibres, stitch structures, or knitters. Without swatch mass the pattern explains that a reliable quantity cannot be inferred from gauge alone.
 
-Six neckline profiles are implemented for raglan. Other constructions, colourwork, custom body measurements, accounts and saved-project storage remain future work. Construction compatibility and gauge/geometry checks disable unavailable neckline cards with visible reasons. The calculation API enforces the same rules independently of the UI.
+Six neckline profiles are implemented for raglan. Other constructions, custom body measurement charts, accounts and cloud project storage remain future work. Construction compatibility and gauge/geometry checks disable unavailable neckline cards with visible reasons. The calculation API enforces the same rules independently of the UI.
 
 ## Technique references
 
@@ -88,7 +88,7 @@ npm test         # Core calculation matrix and failure cases
 npm run build   # Static delivery output
 ```
 
-Browser checks should cover all three design steps, fit/size changes, valid and invalid gauge edits, preview changes, printable pattern, download and narrow viewport layout. See `QA.md` for the implementation-time verification record.
+Browser checks should cover all four design steps, fit/size changes, valid and invalid gauge edits, preview changes, printable pattern, download and narrow viewport layout. See `QA.md` for the implementation-time verification record.
 
 ## Neckline construction details
 
@@ -101,3 +101,28 @@ The V band is picked up after both sleeves and worked flat with two garter selve
 Tests simulate **2,016 combinations** across all six necklines, XS–XXL, both fits, sleeve widths and rib types, and seven gauge pairs. They verify per-row conservation, right-side-only flat shaping, exact front/back equality at the join, neckline pickup accounting, body/sleeve targets and rib compatibility. The original 336-case crew regression also remains.
 
 Technique background for the new shaping: [The Knitting Guild Association: top-down raglan framework](https://tkga.org/wp-content/uploads/issue_archives/2010/Top-Down%20Raglan%20Pullover%20Lesson.pdf) and [Machine Knitting Monthly: overlapping V-neck band ends](https://machineknittingmonthly.net/helpline/v_neckbands/). The implementation and pattern wording are original. New neckline variants have not been physically test-knitted.
+
+
+## Color & Pattern Designer
+
+The fourth step adds a base color, up to 12 palette colors, six independent zone overrides, solid color blocks, ordered stripes and a structured 1–32 stitch × 1–32 row chart editor. Pick colors or enter six-digit HEX values. Draw individual cells (or drag across them), erase to Color A, flood-fill connected cells, clear, resize and toggle horizontal repeats. A reduced grid explicitly drops cells beyond its new edges. Charts run once vertically; arbitrary vertical placement and motif libraries are future extensions.
+
+`Entire sweater` is the fallback style for every construction section. A specific yoke, body, hem, sleeve or cuff zone overrides that section completely. Body means the stockinette after separation; lower body/hem means its ribbed hem. Sleeves apply identically to both arms. The neckband inherits the Entire sweater setting. Stripes restart at row/round 1 of each construction section, including body separation and sleeve pickup; extra back-neck short rows and their resolution round use the base color and do not advance stripes. V-yoke stripes continue from flat rows into circular rounds. Written instructions spell out these conventions.
+
+Charts are supported on the body from round 2, or a sufficiently long sleeve interval with no pickups or decreases. The sleeve planner prefers the first compatible interval; it never moves decreases. Ribbed hems/cuffs and the changing raglan yoke disable charts with an explanation; they still support stripes and blocks. Single motifs are centered at the front or outer sleeve. A V-neck motif crossing the centre-front marker has explicit split-row directions.
+
+The pure repeat result includes stitch count, repeat width, floor quotient and remainder. An incompatible chart blocks pattern generation. Nearby multiples are shown in stitches and centimeters using the entered gauge. Every suggested fit is passed back through the knitting engine and all color zones; options that cannot satisfy rib/raglan/shaping constraints are disabled. **Only clicking Use this fit applies a proposal.** Custom bust/upper-arm targets can be restored to standard fit. Changing size, fit preset or sleeve shape clears custom targets and revalidates everything.
+
+Generated patterns include Colors, section-by-section color directions and printable charts with row/stitch numbering, palette legend and horizontal repeat edges. The text download includes a letter chart. The SVG projects color zones parametrically, using actual ledger row counts and chart bands; it is an illustration, with chart cells and written directions as the knitting reference. Swatch stranded fabric at the entered gauge and manage floats. Colorwork yarn consumption is not estimated per color.
+
+### Separation of responsibilities
+
+- `src/colorwork/model.js`: versioned data, schema validation, immutable chart editing, palette references and serialization.
+- `src/colorwork/engine.js`: pure repeat arithmetic, stable sleeve windows and placement validation against the knitting ledger.
+- `src/colorwork/adjustments.js`: explicit candidate fit proposals through `calculate`; never edits its input.
+- `src/colorwork/pattern.js`: deterministic color directions and text charts, rejecting invalid colorwork.
+- `src/ui/color-studio.js` / `color-actions.js`: visual editor and interactions.
+- `src/ui/color-preview.js`: SVG projection, with no authority to alter garment stitch counts.
+- `test/colorwork.test.js`: arithmetic, gauge conversion, stripe order, persistence, edits, candidate revalidation, stable sleeve intervals and pattern output.
+
+The versioned chart stores `{width,height,palette,cells,repeatHorizontal}`. `cells[row][stitch]` uses zero-based rows from the bottom and stitches from the right. Cells reference palette indices; palette updates retain these references. Future motif sources can produce this same deterministic data without changing the knitting engine. Geometry remains in the preview layer; neither pixel editing nor SVG dimensions drive stitch calculations.

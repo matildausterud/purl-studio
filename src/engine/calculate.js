@@ -27,7 +27,7 @@ export function calculate(input = {}) {
     if (!values.includes(d[key])) errors.push(message(key, `Choose a supported ${key}.`));
   }
   for (const [key, [min, max]] of Object.entries(LIMITS)) {
-    if ((key === 'yokeDepth' || key === 'swatchWeight') && d[key] === null) continue;
+    if (['yokeDepth','swatchWeight','bustTarget','upperArmTarget'].includes(key) && d[key] === null) continue;
     if (typeof d[key] !== 'number' || !Number.isFinite(d[key]) || d[key] < min || d[key] > max)
       errors.push(message(key, `${key}: enter a number from ${min} to ${max}.`));
   }
@@ -44,8 +44,8 @@ export function calculate(input = {}) {
   const repeat = d.rib === '2x2' ? 4 : 2;
   const ease = d.fit === 'oversized' ? 20 : 10;
   const targets = {
-    bust: chart.bust + ease,
-    upperArm: chart.arm + (d.sleeve === 'wide' ? 14 : 6) + (d.fit === 'oversized' ? 2 : 0),
+    bust: d.bustTarget ?? chart.bust + ease,
+    upperArm: d.upperArmTarget ?? chart.arm + (d.sleeve === 'wide' ? 14 : 6) + (d.fit === 'oversized' ? 2 : 0),
     cuff: chart.wrist + (d.sleeve === 'wide' ? 10 : 4),
     neck: chart.neck + profile.neckOffset,
     yoke: d.yokeDepth ?? chart.yoke + (d.fit === 'oversized' ? 2 : 0),
@@ -61,6 +61,8 @@ export function calculate(input = {}) {
   const body = nearest(targets.bust * s, 4);
   const upperArm = nearest(targets.upperArm * s, repeat);
   const cuff = nearest(targets.cuff * s, repeat);
+  if(targets.bust<=chart.bust)errors.push(message('bustTarget','Finished bust must retain positive ease. Choose a larger compatible count.'));
+  if(targets.upperArm<=chart.arm)errors.push(message('upperArmTarget','Upper-arm target must remain larger than the body upper-arm measurement.'));
   // All four one-stitch raglan lines stay on the body: two per body panel.
   const bodyIncreases = (body - 2 * underarm - 2 * (fullFront + 2)) / 4;
   const sleeveIncreases = (upperArm - underarm - sleeve) / 2;

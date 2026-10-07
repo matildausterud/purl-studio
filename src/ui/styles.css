@@ -25,3 +25,44 @@
 .steps{padding-left:12px;padding-right:12px}.steps button{font-size:10px}.steps button span{margin-right:4px}
 @media(min-width:741px){.preview-panel{position:sticky;top:16px;align-self:start;min-height:740px}.drawing{min-height:360px}}
 @media(max-width:740px){.steps{padding:0 6px}.steps button{font-size:9px}.steps button span{width:16px;height:16px;font-size:9px;margin-right:3px}.neckline-choice{min-height:155px}}
+
+/* A small color studio. Palette and chart data remain separate from garment inputs. */
+.steps { flex-wrap:wrap; }
+.steps button { flex:1 1 40%; }
+.studio-palette { padding:20px; background:#f0eee6; border-radius:12px; margin-bottom:28px; }
+.palette-list { display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px; }
+.palette-chip {min-width:0;background:#fffaf1;border:1px solid #dddccf;border-radius:8px;padding:10px;}
+.palette-chip label {display:flex;align-items:center;justify-content:space-between;font-size:12px;gap:8px;}
+.palette-chip input[type=color] {width:42px;height:36px;padding:2px;border:0;cursor:pointer;}
+.palette-chip .hex {width:100%;margin-top:6px;padding:6px;background:transparent;border:0;font:12px monospace;}
+.zone-tabs,.pattern-types,.chart-tools,.studio-swatches {display:flex;gap:8px;flex-wrap:wrap;margin:14px 0;}
+.zone-tabs button,.chart-tools button {border:1px solid #d5d9ca;border-radius:20px;padding:9px 12px;background:transparent;color:inherit;cursor:pointer;}
+.zone-tabs button.selected,.chart-tools button.selected {background:#315744;color:white;}
+.zone-tabs i {font-size:8px;margin-left:8px;}
+.pattern-types {display:grid;grid-template-columns:repeat(4,minmax(0,1fr));}
+.pattern-types .choice {padding:12px 5px;min-width:0;text-align:center;}
+.pattern-types .choice>span {font-size:32px;display:block;margin-bottom:10px;}
+.pattern-types strong {font-size:11px;}
+.pattern-types button:disabled {opacity:.4;cursor:not-allowed;}
+.studio-note,.repeat-status,.adjustments {padding:16px;margin:18px 0;background:#f0eee6;border-radius:8px;}
+.repeat-status.valid {background:#e6eddd;}.repeat-status.invalid {background:#f6e5d8;}
+.stripe-row {display:flex;gap:6px;align-items:center;margin:10px 0;}
+.stripe-row select {min-width:0;width:130px;padding:8px;font-size:11px;background:white;}
+.stripe-row input {width:48px;padding:8px;}.stripe-row label{font-size:11px;}
+.stripe-row button {padding:6px;border:1px solid #d5d9ca;background:transparent;cursor:pointer;}
+.stripe-number {font-size:11px;color:#667367;}
+.chart-editor {margin-top:24px;}.chart-editor input[type=number] {display:block;width:100%;padding:10px;margin-top:8px;border:1px solid #d5d9ca;background:white;}
+.chart-scroll {overflow-x:auto;padding:10px 2px;max-width:100%;}
+.pixel-chart {display:grid;grid-template-columns:24px repeat(var(--cols),minmax(14px,28px));width:max-content;max-width:none;user-select:none;}
+.pixel {display:block;width:28px;height:28px;border:1px solid #ffffff66;background:var(--pixel);padding:0;min-height:0;border-radius:0;}
+.editable .pixel {cursor:crosshair;}.pixel:focus-visible{outline:2px solid black;z-index:1;}
+.row-number,.column-number {font:10px monospace;text-align:center;align-self:center;color:#59634f;}
+.repeat-status p {margin:8px 0;}.adjustment {padding:16px 0;border-top:1px solid #d3d6c9;}.adjustment small{display:block;margin-top:8px;}
+.chart-legend {display:flex;flex-wrap:wrap;gap:15px;font-size:12px;}.chart-legend i{display:inline-block;width:15px;height:15px;margin-right:7px;vertical-align:middle;border:1px solid #ccc;}
+.printed-chart{margin:30px 0;break-inside:avoid;}.pattern-sections p{white-space:pre-line;}
+@media(max-width:600px){.pattern-types{grid-template-columns:repeat(2,1fr)}.palette-list{grid-template-columns:repeat(2,minmax(0,1fr))}.stripe-row{flex-wrap:wrap}.pixel{width:24px;height:24px}.pixel-chart{grid-template-columns:24px repeat(var(--cols),24px)}}
+@media print{.printed-chart .pixel{width:16px;height:16px;print-color-adjust:exact;-webkit-print-color-adjust:exact}.printed-chart .pixel-chart{grid-template-columns:24px repeat(var(--cols),16px)}.printed-chart .chart-scroll{overflow:visible}}
+.design-panel,.controls{min-width:0}
+.studio-swatches .swatch{width:30px;height:30px}
+.pixel-chart{border-right:2px solid #315744}
+@media(max-width:740px){.color-workspace .preview-panel{position:sticky;top:0;z-index:3;height:180px;min-height:180px;width:100%;padding:6px 12px;box-shadow:0 3px 12px #283d3312}.color-workspace .preview-top,.color-workspace .colour-row,.color-workspace .preview-caption,.color-workspace .measurements{display:none}.color-workspace .drawing{height:166px;margin:0}.color-workspace .drawing svg{height:166px}.color-workspace .steps{top:180px}.color-workspace .steps button{padding:10px 2px}.color-workspace .pixel:focus{scroll-margin-top:290px}}
