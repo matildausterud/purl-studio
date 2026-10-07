@@ -10,7 +10,7 @@ let result = calculate(design);
 const app = document.querySelector('#app');
 const escape = v => String(v).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 const fmt = n => Number(n).toFixed(1);
-const steps = ['Shape & fit', 'Details', 'Neckline', 'Yarn & gauge'];
+const steps = ['Shape & fit', 'Details', 'Yarn & gauge'];
 const choices = (field, items) => `<div class="choices ${field === 'size' ? 'sizes' : ''}">${items.map(([value, label, note, icon]) => `<button type="button" class="choice ${design[field] === value ? 'selected' : ''}" data-field="${field}" data-value="${value}" aria-pressed="${design[field] === value}">${icon ? `<span class="choice-icon">${icon}</span>` : ''}<strong>${label}</strong>${note ? `<small>${note}</small>` : ''}</button>`).join('')}</div>`;
 const icon = wide => `<svg viewBox="0 0 100 72" aria-hidden="true"><path d="M37 9Q50 20 63 9L77 17L94 50L80 58L${wide ? '72' : '68'} 35V66H${wide ? '28' : '32'}V35L20 58L6 50L23 17Z"/><path d="M37 13L32 35M63 13L68 35M34 59H66"/></svg>`;
 const range = (key, label, min, max, hint = '') => `<div class="field"><label for="${key}">${label}<span><output id="${key}-value">${design[key]}</output> cm</span></label><input id="${key}" data-input="${key}" type="range" min="${min}" max="${max}" step="0.5" value="${design[key]}">${hint ? `<small>${hint}</small>` : ''}</div>`;
@@ -30,7 +30,7 @@ function necklineLedger() {
 
 function necklineControls() {
   const profile = NECKLINES[design.neckline];
-  return `<div class="section-heading"><span class="eyebrow">03 / THE NECKLINE</span><h2>A different point of view.</h2><p>Six ways to frame your sweater. Each one has its own cast-on, shaping and finishing instructions.</p></div>
+  return `<div class="control-group"><h3>Neckline</h3><p class="quiet">Choose your shape. Each neckline has its own cast-on, shaping and finishing instructions.</p></div>
     <div class="neckline-grid" id="neckline-options" role="group" aria-label="Choose your neckline">${necklineCards()}</div>
     <div class="neckline-ledger" id="neckline-ledger" aria-live="polite">${necklineLedger()}</div>
     ${range('neckband', design.neckline === 'turtle' ? 'Collar height before folding' : 'Neckband height', ...profile.bandRange, design.neckline === 'v' ? 'A flat ribbed band with overlapping ends at the V point, picked up after the sleeves.' : design.neckline === 'turtle' ? 'Knitted at full height, then folded in half when worn.' : 'Knitted first; this height is additional to the body length.')}
@@ -45,13 +45,13 @@ function controls() {
     <div class="control-group"><h3>Room to move</h3>${choices('fit', [['regular','Regular','+10 cm target ease',icon(false)],['oversized','Oversized','+20 cm target ease',icon(true)]])}</div>
 `;
   if (step === 1) return `<div class="section-heading"><span class="eyebrow">02 / THE FINISHING TOUCHES</span><h2>Find your proportions.</h2><p>Watch your sweater change as you refine each detail.</p></div>
+    ${necklineControls()}
     ${range('bodyLength','Body length',35,85,design.neckline === 'v' ? 'From the back-neck base/shoulder datum, including the hem; not from the V point.' : 'Front length below the neckband, including the hem.')}
     ${range('sleeveLength','Sleeve length',15,65,'Measured from the underarm, including the cuff.')}
     <div class="control-group"><h3>Sleeve shape</h3>${choices('sleeve',[['regular','Regular','A gentle taper',icon(false)],['wide','Wide','Roomier arm & cuff',icon(true)]])}</div>
     <div class="control-group"><h3>Rib texture</h3>${choices('rib',[['1x1','1 × 1 rib','Fine, alternating columns','<span class="rib-sample fine"></span>'],['2x2','2 × 2 rib','Bold, paired columns','<span class="rib-sample bold"></span>']])}</div>
     <details><summary>Advanced finishing</summary>${range('hem','Hem height',1,12)}${range('cuff','Cuff height',1,12)}${number('yokeDepth','Yoke depth override',16,40,'cm',true)}<p class="quiet">Leave empty to use the size-and-fit default. Measured below the neckband, before the short-row resolution round.</p></details>`;
-  if (step === 2) return necklineControls();
-  return `<div class="section-heading"><span class="eyebrow">04 / THE FABRIC</span><h2>Start with your swatch.</h2><p>Your actual washed gauge makes this pattern your own.</p></div>
+  return `<div class="section-heading"><span class="eyebrow">03 / THE FABRIC</span><h2>Start with your swatch.</h2><p>Your actual washed gauge makes this pattern your own.</p></div>
     <label class="text-field">Yarn name<input data-input="yarn" value="${escape(design.yarn)}" maxlength="120" placeholder="Your yarn or blend"></label>
     <div class="swatch-tip"><span>↗</span><p>Knit, wash and dry a generous swatch in the round. Measure the central <strong>10 × 10 cm</strong> without stretching.</p></div>
     <div class="number-grid">${number('stitchGauge','Stitches / 10 cm',10,36,'sts')}${number('rowGauge','Rounds / 10 cm',14,50,'rnds')}</div>

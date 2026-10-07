@@ -88,11 +88,11 @@ npm test         # Core calculation matrix and failure cases
 npm run build   # Static delivery output
 ```
 
-Browser checks should cover all four design steps, fit/size changes, valid and invalid gauge edits, preview changes, printable pattern, download and narrow viewport layout. See `QA.md` for the implementation-time verification record.
+Browser checks should cover all three design steps, fit/size changes, valid and invalid gauge edits, preview changes, printable pattern, download and narrow viewport layout. See `QA.md` for the implementation-time verification record.
 
 ## Neckline construction details
 
-The dedicated **Step 3 — Neckline** shows six original thumbnails and live cast-on counts. Selecting a neckline applies its collar-height default; the height can then be adjusted within a shape-specific range. Crew uses the house neck measurement, wide crew adds 10 cm, mock subtracts 2 cm, turtle subtracts 4 cm, and boat adds 14 cm. These are explicit design presets rather than universal fit standards. Mock collars stand upright; turtle collars are knitted at full height and folded outward in half. Boat uses a larger front/back share and a shallow symmetric opening.
+The **Neckline** section under **Details** shows six original thumbnails and live cast-on counts. Selecting a neckline applies its collar-height default; the height can then be adjusted within a shape-specific range. Crew uses the house neck measurement, wide crew adds 10 cm, mock subtracts 2 cm, turtle subtracts 4 cm, and boat adds 14 cm. These are explicit design presets rather than universal fit standards. Mock collars stand upright; turtle collars are knitted at full height and folded outward in half. Boat uses a larger front/back share and a shallow symmetric opening.
 
 V-neck works an open raglan yoke flat, with one initial stitch on each front edge. Neckline edge cast-ons are counted separately from raglan increases. Neckline and flat raglan shaping occur only on right-side rows. The flat section ends after an even (wrong-side) row, then the next row joins without extra stitches. The same row counter continues through the circular yoke. Its round origin stays at centre front for separation, avoiding an uncounted partial round to relocate the marker. The finished fronts must equal the back before joining.
 
