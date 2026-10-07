@@ -56,7 +56,7 @@ test('size, fit, sleeve and rib matrix conserves every stitch and reaches target
 });
 
 test('invalid numeric inputs and unsupported modules never generate patterns', () => {
-  for (const input of [{stitchGauge:0},{rowGauge:NaN},{needle:Infinity},{bodyLength:''},{size:'3XL'},{rib:'3x3'},{construction:'drop'},{neckline:'v'},{shortRows:'yes'},{color:'" onload="alert(1)'},{swatchWeight:-1}]) {
+  for (const input of [{stitchGauge:0},{rowGauge:NaN},{needle:Infinity},{bodyLength:''},{size:'3XL'},{rib:'3x3'},{construction:'drop'},{neckline:'square'},{shortRows:'yes'},{color:'" onload="alert(1)'},{swatchWeight:-1}]) {
     const p=calculate(input); assert.equal(p.ok,false,JSON.stringify(input)); assert.throws(()=>makePattern(p));
   }
 });

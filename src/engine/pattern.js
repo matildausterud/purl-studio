@@ -1,4 +1,5 @@
 import { validateResult } from './calculate.js';
+import { applyNecklineInstructions } from './neckline-pattern.js';
 
 const cm = n => `${n.toFixed(1)} cm`;
 const rounds = a => a.length ? a.join(', ') : 'none';
@@ -19,10 +20,10 @@ export function makePattern(p) {
     { title: '07 · First sleeve', text: `Return ${p.sleeveEnd} held stitches to needles. With right side facing and new yarn, begin at the centre of the underarm cast-on edge. Pick up and knit ${p.underarm / 2} stitches along the first half, knit the held sleeve stitches, then pick up and knit ${p.underarm / 2} along the remaining half. Place a beginning-of-round marker at underarm centre: ${p.upperArmStitches} stitches. This pickup round is sleeve round 1. Close corner gaps later with a yarn tail rather than adding unscheduled stitches.\n\nWork ${p.sleevePlain} stockinette rounds total, counting the pickup round. On these rounds decrease 2 stitches: ${rounds(p.decreaseSchedule)}. To decrease, knit 1, knit 2 together, knit to the last 3 stitches, slip 2 stitches separately knitwise and knit them together through their back loops, knit 1. All other rounds are plain knit. After ${p.decreases} decrease rounds, exactly ${p.cuffStitches} stitches remain.\n\nWork ${p.cuffRounds} rounds of ${rib}, then bind off loosely in pattern. Sleeve length from underarm, including the ${cm(f.cuffLength)} cuff: ${cm(f.sleeveLength)}. The cuff measures approximately ${cm(f.cuff)} at the entered gauge, before rib contraction.` },
     { title: '08 · Second sleeve and finishing', text: `Work the second sleeve exactly as the first, using the same decrease schedule. Close any underarm corner gaps with the yarn tails. Weave in ends, wash according to the yarn instructions, and dry flat to the finished measurements. Do not stretch ribbing aggressively. Check bust ${cm(f.bust)}, upper arm ${cm(f.upperArm)} and front length ${cm(f.bodyLength)} below the neckband. This generated design has mathematical checks but has not been physically test-knitted; fit also depends on yarn behaviour and personal proportions.` },
   ];
-  return { title: `The everyday raglan · ${d.size}`, sections };
+  return { title: `The everyday raglan · ${d.size} · ${p.neckline.label}`, sections: applyNecklineInstructions(p, sections) };
 }
 
 export function patternText(p) {
   const pattern = makePattern(p), f = p.finished;
-  return `PURL STUDIO\n${pattern.title}\n\nFinished bust ${cm(f.bust)} · ease +${cm(f.ease)}\nFront length ${cm(f.bodyLength)} below neckband · sleeve ${cm(f.sleeveLength)} from underarm\nUpper arm ${cm(f.upperArm)} · cuff ${cm(f.cuff)}\n\n${p.warnings.map(w => `NOTE: ${w.text}`).join('\n')}\n\n${pattern.sections.map(s => `${s.title}\n${s.text}`).join('\n\n')}\n`;
+  return `PURL STUDIO\n${pattern.title}\n\nFinished bust ${cm(f.bust)} · ease +${cm(f.ease)}\nFront length ${cm(f.bodyLength)} ${p.neckline.isV ? 'from back-neck base/shoulder datum' : 'below neckband'} · sleeve ${cm(f.sleeveLength)} from underarm\nUpper arm ${cm(f.upperArm)} · cuff ${cm(f.cuff)}\n\n${p.warnings.map(w => `NOTE: ${w.text}`).join('\n')}\n\n${pattern.sections.map(s => `${s.title}\n${s.text}`).join('\n\n')}\n`;
 }

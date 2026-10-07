@@ -4,3 +4,24 @@
 @media(max-width:1000px){.header-note{display:none}main{padding:30px 3% 0}.workspace{grid-template-columns:minmax(350px,1fr) minmax(340px,1fr)}.controls{padding:26px 23px}.preview-panel{padding:24px}.intro h1{font-size:52px}.step-footer{padding:18px 23px}.step-footer>.quiet{display:none}.steps{padding:0 10px}.steps button{font-size:10px}.step-footer .primary{margin-left:auto}}
 @media(max-width:740px){.site-header{height:74px;padding:0 5%}.brand{font-size:24px}.edition{font-size:8px;letter-spacing:1px}.intro{margin-bottom:24px}.intro h1{font-size:43px}.intro>p{display:none}main{padding:28px 4% 0}.workspace{display:flex;flex-direction:column;overflow:visible}.preview-panel{order:-1;padding:17px 20px}.preview-top{margin-bottom:4px}.drawing{min-height:0;margin:5px 0;flex:none;max-height:260px}.drawing svg{height:260px;width:100%}.preview-caption{margin:10px 0 14px}.colour-row{margin-top:0}.measurements{grid-template-columns:repeat(4,1fr);gap:10px;padding-top:14px}.metric strong{font-size:20px}.metric>span{font-size:8px}.metric em{font-size:8px;line-height:1.4}.preview-top .eyebrow{font-size:8px}.design-panel{border:0;border-top:1px solid var(--line)}.steps{position:sticky;top:0;background:#fff;z-index:2;padding:0 12px}.steps button{padding:17px 0;font-size:10px}.controls{min-height:0;padding:26px 22px 12px}.section-heading h2{font-size:33px}.page-footer{line-height:1.6;gap:20px;letter-spacing:.6px;font-size:7px}.page-footer span:last-child{max-width:115px}.pattern-title h1{font-size:40px}.pattern-summary{grid-template-columns:1fr;padding:20px;gap:15px}.pattern-summary svg{max-height:250px}.pattern-summary .measurements{grid-template-columns:repeat(2,1fr)}.pattern-actions{flex-wrap:wrap;margin-bottom:25px}.pattern-actions .primary,.pattern-actions .secondary{font-size:10px;padding:12px}.pattern-sections p{font-size:12px}}
 @media print{@page{margin:18mm}.site-header,.pattern-actions,.skip{display:none}body{background:#fff;color:#000}main{padding:0;max-width:none}.pattern-title h1{font-size:32px}.pattern-summary{padding:15px;margin:20px 0;grid-template-columns:1fr 1.5fr;break-inside:avoid}.pattern-summary svg{max-height:230px}.pattern-summary h2{font-size:20px}.pattern-sections h2{font-size:23px}.pattern-sections p{font-size:10pt;line-height:1.65;color:#222}.pattern-sections section{break-inside:auto}.pattern-sections h2{break-after:avoid}.pattern-notes p{font-size:9pt;color:#444}.page-footer{font-size:8pt}.metric strong{font-size:20px}}
+
+/* Neckline design step */
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+.neckline-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.neckline-choice{display:flex;flex-direction:column;align-items:flex-start;width:100%;height:100%;min-height:158px;padding:12px 14px;text-align:left}
+.neckline-choice svg{width:90px;height:70px;align-self:center;margin-bottom:10px}
+.thumb-fabric,.thumb-collar{fill:#d5decf;stroke:#64715f;stroke-width:1.2;stroke-linejoin:round}
+.thumb-seam{fill:none;stroke:#718569;stroke-width:1;stroke-dasharray:2 2}
+.thumb-edge{fill:none;stroke:#718569;stroke-width:4}
+.thumb-rib{fill:none;stroke:#8a9c81;stroke-width:1.4}
+.neck-count{display:block;font-size:9px;color:#617454;margin-top:10px;letter-spacing:.2px}
+.neckline-choice:disabled{opacity:.55;cursor:not-allowed}
+.neck-option-note.unavailable{font-size:10px;line-height:1.6;color:#854e34;margin:7px 2px 0}
+.neckline-ledger{display:grid;grid-template-columns:1fr 1fr;gap:12px;padding:18px;margin-top:20px;background:#f3f5ee;border:1px solid #dce2d4;border-radius:5px}
+.neckline-ledger span{display:block;color:#75806d;font-size:10px;margin-bottom:6px}
+.neckline-ledger strong{font-size:23px;font-weight:400}
+.neckline-ledger strong small{font-size:10px}
+.neckline-ledger p{grid-column:1/-1;font-size:10px;line-height:1.7;color:#73806a;margin:0}
+.steps{padding-left:12px;padding-right:12px}.steps button{font-size:10px}.steps button span{margin-right:4px}
+@media(min-width:741px){.preview-panel{position:sticky;top:16px;align-self:start;min-height:740px}.drawing{min-height:360px}}
+@media(max-width:740px){.steps{padding:0 6px}.steps button{font-size:9px}.steps button span{width:16px;height:16px;font-size:9px;margin-right:3px}.neckline-choice{min-height:155px}}
