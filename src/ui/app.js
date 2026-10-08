@@ -10,7 +10,7 @@ import { necklineThumbnail } from './neckline-preview.js';
 import { makePattern, patternText } from '../engine/pattern.js';
 import { sweaterSVG } from './preview.js';
 
-let design = { ...DEFAULTS }, step = 0, page = 'design';
+let design = { ...DEFAULTS }, step = new URLSearchParams(location.search).get('step')==='color'?3:0, page = 'design';
 let colorDesign = createColorDesign(design.color);
 const studioState = {placement:'body',ink:1,tool:'draw',saveStatus:'Your design is saved in this browser.'};
 try { const saved=JSON.parse(localStorage.getItem('purl-studio-design-v1')); if(saved){const candidate={...DEFAULTS,...saved.garment};const colors=parseColorDesign(JSON.stringify(saved.colorDesign));if(calculate(candidate).ok){design=candidate;colorDesign=colors;}} } catch {studioState.saveStatus='A saved design could not be restored. Starting with defaults.';}
@@ -87,7 +87,7 @@ function preview() {
 function render() {
   design.color=colorDesign.baseColor;
   result = calculate(design); colorResult=validateColorwork(colorDesign,result); persist();
-  app.innerHTML = `<header class="site-header"><a class="brand" href="./" aria-label="Purl Studio home"><span class="brand-mark">∪</span>purl<span>studio</span></a><span class="header-note">A little thought. A lot of stitches.</span><span class="edition">THE RAGLAN EDITION <span>01</span></span></header>
+  app.innerHTML = `<header class="site-header"><a class="brand" href="./" aria-label="Purl Studio home"><span class="brand-mark">∪</span>purl<span>studio</span></a><a class="text-button" href="./swatch.html">Pattern Studio ↗</a><span class="edition">THE RAGLAN EDITION <span>01</span></span></header>
     ${page === 'pattern' && result.ok && colorResult.ok ? patternPage() : `<main id="design"><div class="intro"><div><span class="eyebrow">MADE BY YOU, FOR YOU</span><h1>A sweater, <i>your way.</i></h1></div><p>Choose the shape. Find the fit.<br>We’ll take care of the stitch counts.</p></div><div class="workspace ${step===3?'color-workspace':''}"><section class="design-panel"><nav class="steps" aria-label="Design steps">${steps.map((s,i)=>`<button data-step="${i}" ${i===step?'aria-current="step"':''}><span>${i+1}</span>${s}</button>`).join('')}</nav><div class="controls">${controls()}</div><div id="notices" role="status">${notices()}</div><div class="step-footer">${step ? '<button class="text-button" data-action="back">← Back</button>' : '<span class="quiet">Designed slowly. Calculated precisely.</span>'}<button class="primary" data-action="${step < steps.length - 1 ? 'next' : 'generate'}" ${step===steps.length-1&&(!result.ok||!colorResult.ok)?'disabled':''}>${step<steps.length-1?'Next: '+steps[step+1]:'Create my pattern'} <span>↗</span></button></div></section>${preview()}</div><footer class="page-footer"><span>FROM THE FIRST CAST-ON TO THE LAST END WOVEN IN.</span><span>No account. No guesswork in your stitch counts.</span></footer></main>`}`;
 }
 function patternPage() {

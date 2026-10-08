@@ -46,3 +46,11 @@ Physical knitting samples, independent knitting tech editing and real-yarn fit t
 - Browser: reload restored garment fit, palette and multiple zones. Stable sleeve chart selected rounds 9–10 with 72 stitches, avoiding decreases.
 - Desktop 1440 px and mobile 390 px visually reviewed. On mobile the sweater preview stays above the editor while scrolling.
 - Static build completes. Physical knitting and independent technique editing remain outside this verification.
+
+
+## Pattern Studio update
+
+- 25 test groups pass, including motif schema/determinism across all five styles and boundary sizes, exact tiling, gauge-based rendering and the existing calculation suites.
+- Browser verified generation, width duplication, undo and transfer into the sweater builder's Custom chart with repeat validation intact.
+- Local reload restores the saved chart; mobile at 390 px has no document overflow. Desktop knit texture and diagram visually reviewed.
+- Static output includes `swatch.html` and all its modules.

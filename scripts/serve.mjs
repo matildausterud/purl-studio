@@ -9,7 +9,7 @@ const server = http.createServer(async (req, res) => {
     const pathname = decodeURIComponent(new URL(req.url, 'http://localhost').pathname);
     const relative = pathname === '/' ? 'index.html' : pathname.replace(/^\/+/, '');
     // Serve only the browser application, never repository metadata or scripts.
-    if (!['index.html', 'favicon.svg'].includes(relative) && !relative.startsWith('src/')) throw new Error('Not found');
+    if (!['index.html', 'swatch.html', 'favicon.svg'].includes(relative) && !relative.startsWith('src/')) throw new Error('Not found');
     const filename = path.resolve(root, relative);
     if (!filename.startsWith(root) || relative.split('/').includes('..')) throw new Error('Not found');
     const data = await readFile(filename);

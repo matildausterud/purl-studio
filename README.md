@@ -126,3 +126,10 @@ Generated patterns include Colors, section-by-section color directions and print
 - `test/colorwork.test.js`: arithmetic, gauge conversion, stripe order, persistence, edits, candidate revalidation, stable sleeve intervals and pattern output.
 
 The versioned chart stores `{width,height,palette,cells,repeatHorizontal}`. `cells[row][stitch]` uses zero-based rows from the bottom and stitches from the right. Cells reference palette indices; palette updates retain these references. Future motif sources can produce this same deterministic data without changing the knitting engine. Geometry remains in the preview layer; neither pixel editing nor SVG dimensions drive stitch calculations.
+
+
+## Pattern Studio
+
+Open `swatch.html` using the Pattern Studio link. This separate work surface generates original geometric diamonds, chevrons, stars, checks and seeded symmetrical speckles as editable chart cells. Choose a style and generate a variation, then draw, erase, fill, mirror, duplicate, undo or redo. A gauge-proportioned SVG knit texture previews horizontal and vertical repeats; flat color view is also available. Knitting direction controls row placement and stitch orientation. Preview repeat counts never change the motif data.
+
+The chart, palette, name and swatch settings are saved locally. Download structured JSON, export the knitted swatch as SVG, or print the chart with its legend. Use on my sweater replaces the selected body/sleeve zone only, merges palette references and retains garment geometry and other zones. Invalid repeats remain drafts until corrected in the sweater builder. Swatch gauge is illustrative and never overwrites sweater gauge. The generator uses deterministic algorithms, not an AI service or copied motifs. No third-party yarn catalog, accounts or sharing backend are included.
