@@ -1,5 +1,14 @@
 # Verification record
 
+## Repository continuity check — 2026-11-08
+
+- Retrieved `matildausterud/purl-studio` from GitHub at `2d4ac7f` on `main` and compared it with the existing local Purl Studio checkout: application and reference files match.
+- The sweater-builder MVP is already included: top-down raglan, XS–XXL, regular/oversized fit, custom gauge, live SVG preview and generated instructions, with the calculation engine separate from the UI. Later neckline, colorwork and Pattern Studio additions are preserved.
+- Re-ran `node --test`: all 25 tests passed, including the 2,016-combination neckline matrix.
+- Re-ran `node scripts/build.mjs`: static build succeeded.
+- No application replacement or migration was needed. The original conversation's `stickprogram.zip` was not available for a byte-for-byte comparison; continuity was checked against its described MVP features and the existing local checkout.
+- This check did not repeat browser QA or physical test knitting; the browser records below describe earlier verification.
+
 ## Automated
 
 - Hand-checked default: 80 cast-on; 26 front, 26 back, 12 each sleeve, four raglan stitches; 33 body increase events and 26 sleeve increase events; 316 stitches at yoke end; 212 body stitches, 76 sleeve stitches including 12 picked-up underarm stitches; 16 paired decreases to 44 cuff stitches.
