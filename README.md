@@ -1,6 +1,24 @@
 # Purl Studio
 
-An original visual sweater builder for seamless, top-down raglans. Design a sweater, see a live parametric fashion flat, and generate a deterministic knitting pattern using your own gauge.
+An interactive yarn workspace with a live knitted swatch. Mix two yarn strands, explore smooth and fuzzy textures, and save or compare your favorite combinations. The existing sweater builder and Pattern Studio remain available.
+
+## Yarn Studio
+
+The home page is the yarn mixer. Choose a brand and quality using searchable menus, then select a demonstration shade. Turn the additional strand on or off, inspect the fabric at 100–250% zoom, name and save combinations, reopen them, delete them, or compare up to three side by side. Drafts and saved combinations use separate `purl-yarn-*` localStorage keys and do not modify existing garment or chart data. Saving an opened mix creates a new entry.
+
+The six named example yarns are Tvinni and Silk Mohair (Isager), Sunday and Tynn Silk Mohair (Sandnes Garn), and Merino and Soft Silk Mohair (Knitting for Olive). **Shade names, DEMO codes, HEX values, material profiles and rendering characteristics are demonstration data, not a verified manufacturer catalog.** The deterministic Canvas renderer layers separate yarn centerlines, highlights, shadows and seeded fibers; mohair adds a visible halo. It is an illustrative stockinette simulation, not a prediction of fabric, drape, gauge or official yarn colors. No AI image generation or backend is involved.
+
+- `src/yarn/catalog.js`: reusable yarn, shade and texture data.
+- `src/yarn/state.js`: validated independent strand selections.
+- `src/yarn/renderer.js`: seeded fabric geometry and fiber layers.
+- `src/yarn/storage.js`: draft and saved-collection persistence with failure handling.
+- `src/yarn/components.js`: YarnSelector, YarnColorPicker, YarnStrandCard, KnittedSwatchPreview, CombinationSummary and SavedCombinations.
+- `src/yarn/app.js` and `styles.css`: accessible interactions and responsive workspace.
+- `test/yarn.test.js`: catalog/state transitions, storage failures, escaping and deterministic rendering.
+
+Open `/` for Yarn Studio, `/sweater.html` for the preserved raglan builder, or `/swatch.html` for Pattern Studio. Pattern Studio transfers still open the sweater builder. Existing local garment and chart saves remain intact.
+
+No dependencies were added; the existing ES-module JavaScript architecture is retained. Data is local to the browser and is lost if browser storage is cleared. Physical sampling remains necessary. The functional reference was [Colorwork Studio](https://colorwork.studio/); this workspace and rendering implementation are original.
 
 ## Run locally
 

@@ -1,5 +1,14 @@
 # Verification record
 
+## Interactive Yarn Mixer — 2026-11-08
+
+- All 30 automated tests pass. New coverage checks six demonstration yarns, independent strand transitions, invalid selections, storage round trips and failures, escaped names, seeded rendering, and unchanged stitch geometry during color/zoom changes.
+- Static build succeeds and includes the mixer home page, `sweater.html`, `swatch.html`, and their modules.
+- Browser-verified naming/saving two distinct mixes, side-by-side comparison, reload persistence, reopening, deletion, toggling the second strand, reset, zoom and searchable brand filtering. Keyboard activation was exercised for the core flows.
+- At the 390 px mobile breakpoint the document is 390 px wide and the workspace has one 351 px column; no horizontal document overflow. Desktop/tablet and mobile layout were visually inspected. Browser screenshot capture showed inconsistent scaling while resizing, so captured screenshots are not pixel-level visual regression baselines.
+- Existing garment and chart storage keys are unchanged. Pattern Studio transfer targets `sweater.html?step=color`.
+- Yarn colors and profiles remain clearly labeled demonstration data. The swatch is an illustrative Canvas simulation; official shade accuracy and physical fabric properties are not verified.
+
 ## Repository continuity check — 2026-11-08
 
 - Retrieved `matildausterud/purl-studio` from GitHub at `2d4ac7f` on `main` and compared it with the existing local Purl Studio checkout: application and reference files match.
