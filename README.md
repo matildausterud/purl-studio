@@ -4,7 +4,7 @@ An interactive yarn workspace with a live knitted swatch. Mix two yarn strands, 
 
 ## Yarn Studio
 
-The home page is the yarn mixer. Choose a brand and quality using searchable menus, then select a demonstration shade. Turn the additional strand on or off, inspect the fabric at 100–250% zoom, name and save combinations, reopen them, delete them, or compare up to three side by side. Drafts and saved combinations use separate `purl-yarn-*` localStorage keys and do not modify existing garment or chart data. Saving an opened mix creates a new entry.
+The home page starts a three-step sweater project: choose one of four raglan models, configure yarns at `yarn.html`, then choose no colorwork, stripes or a custom motif. Model, yarn recipe and pattern choice travel with the existing garment draft; size, gauge and unrelated dimensions are preserved. The yarn mixer remains available separately. Choose a brand and quality using searchable menus, then select a demonstration shade. Turn the additional strand on or off, inspect the fabric at 100–250% zoom, name and save combinations, reopen them, delete them, or compare up to three side by side. Drafts and saved combinations use separate `purl-yarn-*` localStorage keys and do not modify existing garment or chart data. Saving an opened mix creates a new entry.
 
 The six named example yarns are Tvinni and Silk Mohair (Isager), Sunday and Tynn Silk Mohair (Sandnes Garn), and Merino and Soft Silk Mohair (Knitting for Olive). **Shade names, DEMO codes, HEX values, material profiles and rendering characteristics are demonstration data, not a verified manufacturer catalog.** The deterministic Canvas renderer layers separate yarn centerlines, highlights, shadows and seeded fibers; mohair adds a visible halo. It is an illustrative stockinette simulation, not a prediction of fabric, drape, gauge or official yarn colors. No AI image generation or backend is involved.
 
@@ -16,7 +16,7 @@ The six named example yarns are Tvinni and Silk Mohair (Isager), Sunday and Tynn
 - `src/yarn/app.js` and `styles.css`: accessible interactions and responsive workspace.
 - `test/yarn.test.js`: catalog/state transitions, storage failures, escaping and deterministic rendering.
 
-Open `/` for Yarn Studio, `/sweater.html` for the preserved raglan builder, or `/swatch.html` for Pattern Studio. Pattern Studio transfers still open the sweater builder. Existing local garment and chart saves remain intact.
+Open `/` for model selection, `/yarn.html` for Yarn Studio, `/sweater.html` for the preserved raglan builder, or `/swatch.html` for Pattern Studio. Pattern Studio transfers still open the sweater builder. Existing local garment and chart saves remain intact.
 
 No dependencies were added; the existing ES-module JavaScript architecture is retained. Data is local to the browser and is lost if browser storage is cleared. Physical sampling remains necessary. The functional reference was [Colorwork Studio](https://colorwork.studio/); this workspace and rendering implementation are original.
 
@@ -151,3 +151,7 @@ The versioned chart stores `{width,height,palette,cells,repeatHorizontal}`. `cel
 Open `swatch.html` using the Pattern Studio link. This separate work surface generates original geometric diamonds, chevrons, stars, checks and seeded symmetrical speckles as editable chart cells. Choose a style and generate a variation, then draw, erase, fill, mirror, duplicate, undo or redo. A gauge-proportioned SVG knit texture previews horizontal and vertical repeats; flat color view is also available. Knitting direction controls row placement and stitch orientation. Preview repeat counts never change the motif data.
 
 The chart, palette, name and swatch settings are saved locally. Download structured JSON, export the knitted swatch as SVG, or print the chart with its legend. Use on my sweater replaces the selected body/sleeve zone only, merges palette references and retains garment geometry and other zones. Invalid repeats remain drafts until corrected in the sweater builder. Swatch gauge is illustrative and never overwrites sweater gauge. The generator uses deterministic algorithms, not an AI service or copied motifs. No third-party yarn catalog, accounts or sharing backend are included.
+
+## Guided sweater flow
+
+`src/journey/model.js` owns the model presets and immutable project transitions. `src/journey/app.js` provides model selection and colorwork choice; the existing yarn mixer and chart editor are reused. All four silhouettes use the supported raglan construction. Simple presets do not introduce unsupported drop-shoulder calculations. A solid choice keeps a recoverable colorwork backup; selecting custom restores it. The sweater illustration uses the base color, while the yarn swatch simulates held-together strands. Yarn changes never infer gauge: knit and measure a swatch before generating instructions.

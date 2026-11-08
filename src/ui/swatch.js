@@ -8,6 +8,8 @@ import {swatchSVG} from './swatch-preview.js';
 const root=document.querySelector('#swatch-app'),key='purl-swatch-v1';
 let palette=createColorDesign('#f1ebdd').palette.filter((_,i)=>i!==2),chart=generateMotif({seed:3},palette),settings={across:3,up:3,stitchGauge:20,rowGauge:28,direction:'top-down',grid:false},style='diamonds',seed=3,ink=1,tool='draw',target='body',history=[],future=[],notice='Saved in this browser.',name='My colorwork swatch';
 try{const saved=JSON.parse(localStorage.getItem(key));if(saved){if(Object.hasOwn(MOTIFS,saved.style))style=saved.style;if(Number.isInteger(saved.seed))seed=saved.seed;const d=parseColorDesign(JSON.stringify(saved.colorDesign));if(!d.zones[0]?.chart)throw new Error('Missing chart');palette=d.palette;chart=d.zones[0].chart;for(const [k,min,max] of [['across',1,8],['up',1,8],['stitchGauge',10,36],['rowGauge',14,50]]){const n=saved.settings?.[k];if(Number.isInteger(n)&&n>=min&&n<=max)settings[k]=n;}if(['top-down','bottom-up'].includes(saved.settings?.direction))settings.direction=saved.settings.direction;name=String(saved.name||name).slice(0,60);}}catch{notice='Starting a new swatch; saved data could not be restored.';}
+// A new motif starts with the project's palette; an existing swatch stays intact.
+try{if(!localStorage.getItem(key)){const d=JSON.parse(localStorage.getItem('purl-studio-design-v1'));if(d?.yarnCombination){palette=parseColorDesign(JSON.stringify(d.colorDesign)).palette;chart=generateMotif({seed:3},palette);}}}catch{}
 function data(){return {version:1,baseColor:palette[0].hex,palette,zones:[{id:'swatch',placement:'body',type:'chart',chart}]};}
 function save(){try{localStorage.setItem(key,JSON.stringify({name,settings,style,seed,colorDesign:JSON.parse(serializeColorDesign(data()))}));}catch{notice='Browser storage unavailable. Download your chart to keep it.';}}
 function commit(next){history.push(JSON.stringify({chart,palette}));if(history.length>40)history.shift();future=[];chart=next;save();}
@@ -33,7 +35,7 @@ root.addEventListener('click',e=>{const b=e.target.closest('button');if(!b||b.di
  case 'json':download(JSON.stringify({name,colorDesign:data()},null,2),'purl-chart.json','application/json');changed=false;break;
  case 'svg':download(swatchSVG(chart,settings),'purl-swatch.svg','image/svg+xml');changed=false;break;
  case 'print':window.print();changed=false;break;
- case 'apply':{const p=proposal();if(p.error)return;try{localStorage.setItem('purl-studio-design-v1',JSON.stringify({garment:p.garment,colorDesign:p.colorDesign}));location.href='./sweater.html?step=color';}catch{notice='Cannot transfer while browser storage is blocked. Download chart data instead.';}break;}
+ case 'apply':{const p=proposal();if(p.error)return;try{localStorage.setItem('purl-studio-design-v1',JSON.stringify({...JSON.parse(localStorage.getItem('purl-studio-design-v1')||'{}'),garment:p.garment,colorDesign:p.colorDesign,patternChoice:'custom',patternBackup:undefined}));location.href='./sweater.html?step=color';}catch{notice='Cannot transfer while browser storage is blocked. Download chart data instead.';}break;}
  default:changed=false;
  }
  if(changed){render();if(a.pixel)root.querySelector(`[data-pixel="${a.pixel}"]`)?.focus({preventScroll:true});}

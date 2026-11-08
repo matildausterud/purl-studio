@@ -1,5 +1,13 @@
 # Verification record
 
+## Model-first project flow — 2026-11-08
+
+- Home starts with four illustrated raglan models; the next steps choose yarn combinations and then solid, striped or custom colorwork.
+- 33 tests pass, including new end-to-end state-transition tests for model/yarn/pattern persistence, retained size/gauge/dimensions, invalid saved data and recoverable colorwork.
+- Browser verified selecting the oversized model, continuing to yarn, switching to two smooth strands, and carrying the selected model and both yarns into the pattern-choice screen. Stripe choice opens the existing colorwork editor with the chosen model and yarn base color.
+- Static build includes the new `yarn.html` entry and shared journey modules; existing editors preserve project metadata when saving.
+
+
 ## Interactive Yarn Mixer — 2026-11-08
 
 - All 30 automated tests pass. New coverage checks six demonstration yarns, independent strand transitions, invalid selections, storage round trips and failures, escaped names, seeded rendering, and unchanged stitch geometry during color/zoom changes.
