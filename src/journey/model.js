@@ -32,4 +32,4 @@ export function applyPattern(d,kind){
  return next;
 }
 export const saveDesign=(storage,d)=>storage.setItem(KEY,JSON.stringify(d));
-export function steps(current){return `<nav class="journey-steps" aria-label="Designsteg">${[['./','Tröjmodell'],['./yarn.html','Garnkombination'],['./?step=pattern','Färgmönster']].map(([href,label],i)=>`<a href="${href}" ${current===i?'aria-current="step"':''}><span>0${i+1}</span>${label}</a>`).join('')}</nav>`;}
+export function steps(current){return `<nav class="journey-steps" aria-label="Designsteg">${[['./journey.html','Tröjmodell'],['./yarn.html','Garnkombination'],['./journey.html?step=pattern','Färgmönster']].map(([href,label],i)=>`<a href="${href}" ${current===i?'aria-current="step"':''}><span>0${i+1}</span>${label}</a>`).join('')}</nav>`;}
