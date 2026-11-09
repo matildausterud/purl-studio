@@ -1,7 +1,7 @@
 let assetCounter=0;
 const ROOT='./src/workspace/assets/';
 export const ASSETS={
- checkerSweater:{file:'workspace',width:1940,height:1282,crop:[798,221,850,851]},
+ checkerSweater:{file:'workspace',width:1940,height:1282,crop:[798,221,900,851]},
  yarnPeach:{file:'workspace',width:1940,height:1282,crop:[93,864,130,114]},
  yarnRed:{file:'workspace',width:1940,height:1282,crop:[93,1004,130,115]},
  checker:{file:'swatches',width:3040,height:2118,crop:[514,201,535,565]},
